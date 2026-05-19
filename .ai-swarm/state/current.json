@@ -1,0 +1,10 @@
+{
+  "_comment": "Swarm state — managed exclusively by swarm-state.sh. Do not edit manually.",
+  "version": 1,
+  "initialized_at": "",
+  "worktrees": [],
+  "specs": [],
+  "gates": {},
+  "blockers": [],
+  "last_updated": ""
+}

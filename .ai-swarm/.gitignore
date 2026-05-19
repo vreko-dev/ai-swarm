@@ -1,0 +1,15 @@
+# SQLite state database — WAL journal and shared memory files
+# These are created automatically when swarm.db is opened and are not repo artifacts.
+state/swarm.db-wal
+state/swarm.db-shm
+
+# Atomic file lock directory
+# Created and removed by swarm-state.sh to prevent concurrent writes.
+# If this directory is present after a crash, remove it manually:
+#   rmdir .ai-swarm/state/.swarm.lock
+state/.swarm.lock
+
+# Runtime output logs from compress-output.sh
+# Full command output is written here; only compressed digest goes to agent context.
+# These are per-session and should not be committed.
+/tmp/swarm-output-*.log
