@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 
 const scriptPath = join(__dirname, '..', '..', 'scripts', 'validate-agent-output.sh');
 
@@ -20,7 +20,7 @@ function runValidator(role: string, reportContent: string): { code: number; outp
   const reportPath = join(tmpDir, 'report.md');
   writeFileSync(reportPath, reportContent, 'utf8');
   try {
-    const output = execSync(`bash ${scriptPath} ${role} ${reportPath}`, {
+    const output = execFileSync('bash', [scriptPath, role, reportPath], {
       encoding: 'utf8',
       stdio: 'pipe',
     });

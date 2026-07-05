@@ -1,5 +1,5 @@
 {
-  "name": "@marcellelabs/swarm",
+  "name": "@marcelle-labs/swarm",
   "version": "0.1.0",
   "description": "Generic AI swarm harness — project-agnostic agent prompts, shell-based enforcement, and TypeScript dispatch layer",
   "type": "module",

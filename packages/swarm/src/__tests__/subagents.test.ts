@@ -10,7 +10,7 @@ function makeContext(overrides: Partial<SwarmContext> = {}): SwarmContext {
     testCommand: 'pnpm turbo run test',
     typecheckCommand: 'pnpm turbo run typecheck',
     archFenceRules: [],
-    ownedPackages: [{ name: '@marcellelabs/swarm', path: 'packages/swarm', private: false }],
+    ownedPackages: [{ name: '@marcelle-labs/swarm', path: 'packages/swarm', private: false }],
     mcpTools: [],
     antiPatterns: [],
     ratchetBaselines: [],

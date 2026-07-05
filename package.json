@@ -1,5 +1,5 @@
 {
-  "name": "ai-swarm-monorepo",
+  "name": "ai-swarm",
   "private": true,
   "type": "module",
   "scripts": {

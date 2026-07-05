@@ -77,22 +77,22 @@ describe('T3: hydrateContext', () => {
     tmpDir = setupProject({
       'pnpm-lock.yaml': '',
       'pnpm-workspace.yaml': 'packages:\n  - packages/*\n',
-      'packages/swarm/package.json': JSON.stringify({ name: '@marcellelabs/swarm', private: false }),
+      'packages/swarm/package.json': JSON.stringify({ name: '@marcelle-labs/swarm', private: false }),
     });
     const ctx = await hydrateContext(tmpDir);
     expect(ctx.ownedPackages.length).toBeGreaterThan(0);
-    expect(ctx.ownedPackages.some((p) => p.name === '@marcellelabs/swarm')).toBe(true);
+    expect(ctx.ownedPackages.some((p) => p.name === '@marcelle-labs/swarm')).toBe(true);
   });
 
   it('T3.7 — enumerates npm/yarn workspaces from package.json workspaces field', async () => {
     tmpDir = setupProject({
       'package-lock.json': '{}',
       'package.json': JSON.stringify({ workspaces: ['packages/*'] }),
-      'packages/swarm/package.json': JSON.stringify({ name: '@marcellelabs/swarm', private: false }),
+      'packages/swarm/package.json': JSON.stringify({ name: '@marcelle-labs/swarm', private: false }),
     });
     const ctx = await hydrateContext(tmpDir);
     expect(ctx.ownedPackages.length).toBeGreaterThan(0);
-    expect(ctx.ownedPackages.some((p) => p.name === '@marcellelabs/swarm')).toBe(true);
+    expect(ctx.ownedPackages.some((p) => p.name === '@marcelle-labs/swarm')).toBe(true);
   });
 
   it('T3.8 — detects turbo build commands when turbo.json exists', async () => {

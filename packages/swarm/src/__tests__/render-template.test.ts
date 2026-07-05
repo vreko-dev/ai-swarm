@@ -15,7 +15,7 @@ function makeContext(overrides: Partial<SwarmContext> = {}): SwarmContext {
     archFenceRules: [
       { pattern: 'packages/*', allowedImports: ['shared'], forbiddenImports: ['other'] },
     ],
-    ownedPackages: [{ name: '@marcellelabs/swarm', path: 'packages/swarm', private: false }],
+    ownedPackages: [{ name: '@marcelle-labs/swarm', path: 'packages/swarm', private: false }],
     mcpTools: [{ name: 'filesystem', command: 'npx', args: ['-y', '@modelcontextprotocol/server-filesystem'] }],
     antiPatterns: [],
     ratchetBaselines: [],
@@ -57,7 +57,7 @@ describe('T1: renderTemplate', () => {
     expect(result).toContain('pnpm turbo run test');
     expect(result).toContain('pnpm turbo run typecheck');
     expect(result).toContain('PATTERN: packages/*');
-    expect(result).toContain('@marcellelabs/swarm');
+    expect(result).toContain('@marcelle-labs/swarm');
     expect(result).toContain('filesystem');
     expect(result).toContain('main');
     expect(result).toContain('dev');

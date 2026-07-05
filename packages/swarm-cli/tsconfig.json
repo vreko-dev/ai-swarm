@@ -4,8 +4,8 @@
     "outDir": "dist",
     "rootDir": "../..",
     "paths": {
-      "@marcellelabs/swarm": ["../swarm/src/index.ts"],
-      "@marcellelabs/swarm/*": ["../swarm/src/*"]
+      "@marcelle-labs/swarm": ["../swarm/src/index.ts"],
+      "@marcelle-labs/swarm/*": ["../swarm/src/*"]
     }
   },
   "include": ["src"]

@@ -1,3 +1,4 @@
 packages:
   - "packages/swarm"
   - "packages/swarm-cli"
+  - "packages/agent-substrate"

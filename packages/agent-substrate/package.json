@@ -1,0 +1,41 @@
+{
+  "name": "@marcelle-labs/agent-substrate",
+  "version": "0.1.0",
+  "description": "Shared agent operating substrate for Marcelle Labs: canonical agent config, skills, templates, and model-routing policy, synced into consumer repos without symlinks.",
+  "license": "UNLICENSED",
+  "private": false,
+  "type": "commonjs",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "bin": {
+    "agent-substrate": "dist/bin/agent-substrate.js",
+    "agent-substrate-sync": "dist/bin/agent-substrate-sync.js"
+  },
+  "files": [
+    "dist/",
+    "templates/",
+    "routing/",
+    "skills/",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'lint: no linter configured for @marcelle-labs/agent-substrate — tracked as DW-006' && exit 0",
+    "test": "ts-node bin/agent-substrate-sync.ts --dry-run > /dev/null && echo 'sync dry-run: OK' && exit 0",
+    "sync": "ts-node bin/agent-substrate-sync.ts",
+    "sync:dry": "ts-node bin/agent-substrate-sync.ts --dry-run",
+    "prepack": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}

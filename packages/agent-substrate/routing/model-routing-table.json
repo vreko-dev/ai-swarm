@@ -1,0 +1,10 @@
+{
+  "$schema": "./model-routing-table.schema.json",
+  "spec_ref": "SOLO-FOUNDER-AGENT-OPS-01 §7.3",
+  "schema_version": "1.0.0",
+  "success_rate_threshold": null,
+  "generated_from": null,
+  "populated_at": null,
+  "routes": [],
+  "escalation_log": []
+}

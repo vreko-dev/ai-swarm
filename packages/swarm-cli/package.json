@@ -1,5 +1,5 @@
 {
-  "name": "@marcellelabs/swarm-cli",
+  "name": "@marcelle-labs/swarm-cli",
   "version": "0.1.0",
   "description": "Interactive CLI for scaffolding an AI swarm harness in any project",
   "type": "module",
@@ -17,7 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@marcellelabs/swarm": "workspace:*"
+    "@marcelle-labs/swarm": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

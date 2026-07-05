@@ -15,6 +15,6 @@ node_modules/
 dist/
 **/dist/
 
-# Swarm runtime state and generated reports
-.ai-swarm/reports/
-.ai-swarm/state/
+# Swarm runtime state and generated reports — .ai-swarm/ is a sync-generated install
+.ai-swarm/*
+!.ai-swarm/specs/

@@ -10,8 +10,8 @@ const cliPkg = JSON.parse(
 );
 
 describe('T8: package-structure', () => {
-  it('T8.1 — @marcellelabs/swarm name is correct', () => {
-    expect(swarmPkg.name).toBe('@marcellelabs/swarm');
+  it('T8.1 — @marcelle-labs/swarm name is correct', () => {
+    expect(swarmPkg.name).toBe('@marcelle-labs/swarm');
   });
 
   it('T8.2 — type is module', () => {
@@ -47,9 +47,9 @@ describe('T8: package-structure', () => {
     expect(cliPkg.bin['create-swarm']).toBeDefined();
   });
 
-  it('T8.8 — CLI depends on @marcellelabs/swarm via workspace:*', () => {
+  it('T8.8 — CLI depends on @marcelle-labs/swarm via workspace:*', () => {
     expect(cliPkg.dependencies).toBeDefined();
-    expect(cliPkg.dependencies['@marcellelabs/swarm']).toBe('workspace:*');
+    expect(cliPkg.dependencies['@marcelle-labs/swarm']).toBe('workspace:*');
   });
 
   it('T8.9 — files array includes dist, templates, scripts', () => {

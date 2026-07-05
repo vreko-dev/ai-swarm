@@ -83,7 +83,7 @@ async function enumerateWorkspaces(root: string, pm: string | null): Promise<str
 async function detectGitRoot(root: string): Promise<string | null> {
   try {
     const { execSync } = await import('node:child_process');
-    const result = execSync('git rev-parse --show-toplevel', { cwd: root, encoding: 'utf8' }).trim();
+    const result = execSync('git rev-parse --show-toplevel', { cwd: root, encoding: 'utf8', stdio: 'pipe' }).trim();
     return result;
   } catch {
     return null;

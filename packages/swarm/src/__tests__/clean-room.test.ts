@@ -1,11 +1,28 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
-const swarmRoot = join(__dirname, '..', '..');
-const cliRoot = join(__dirname, '..', '..', '..', 'swarm-cli');
+const packagesRoot = join(__dirname, '..', '..', '..');
 
-const FORBIDDEN_PATTERN = new RegExp(['vre', 'ko', '|@vre', 'ko', '|snap', 'back', '|dop', 'pler', '|pion', 'eer', '|Lin', 'ear'].join(''), 'i');
+// Discover all package directories under packages/*
+const packageDirs = readdirSync(packagesRoot)
+  .filter((entry) => {
+    const fullPath = join(packagesRoot, entry);
+    return statSync(fullPath).isDirectory() && existsSync(join(fullPath, 'package.json'));
+  })
+  .map((entry) => ({ name: entry, path: join(packagesRoot, entry) }));
+
+// Self-protecting pattern: the literal forbidden words must not appear in this file,
+// so we build the regex from the fragments below.
+const FORBIDDEN_PARTS = [
+  ['vre', 'ko'],
+  ['@vre', 'ko'],
+  ['snap', 'back'],
+  ['dop', 'pler'],
+  ['pion', 'eer'],
+  ['Lin', 'ear'],
+];
+const FORBIDDEN_PATTERN = new RegExp(FORBIDDEN_PARTS.map((parts) => parts.join('')).join('|'), 'i');
 const ALLOWED_EXTENSIONS = new Set(['.ts', '.md', '.sh', '.json', '.txt']);
 
 function collectFiles(root: string, dir: string = '', results: string[] = []): string[] {
@@ -26,26 +43,26 @@ function collectFiles(root: string, dir: string = '', results: string[] = []): s
 }
 
 describe('T12: clean-room', () => {
-  it('T12.1 — no forbidden references in packages/swarm/ (.ts, .md, .sh, .json, .txt)', () => {
-    const files = collectFiles(swarmRoot);
-    expect(files.length).toBeGreaterThan(0);
-    for (const file of files) {
-      const content = readFileSync(file, 'utf8');
-      expect(content, `File ${file} contains forbidden references`).not.toMatch(FORBIDDEN_PATTERN);
-    }
+  it('T12.0 — packageDirs includes all expected packages', () => {
+    const names = packageDirs.map((p) => p.name);
+    expect(names).toContain('swarm');
+    expect(names).toContain('swarm-cli');
+    expect(names).toContain('agent-substrate');
   });
 
-  it('T12.2 — no forbidden references in packages/swarm-cli/ (.ts, .md, .sh, .json, .txt)', () => {
-    const files = collectFiles(cliRoot);
-    expect(files.length).toBeGreaterThan(0);
-    for (const file of files) {
-      const content = readFileSync(file, 'utf8');
-      expect(content, `File ${file} contains forbidden references`).not.toMatch(FORBIDDEN_PATTERN);
-    }
-  });
+  for (const pkg of packageDirs) {
+    it(`T12.${pkg.name} — no forbidden references in packages/${pkg.name}/ (.ts, .md, .sh, .json, .txt)`, () => {
+      const files = collectFiles(pkg.path);
+      expect(files.length).toBeGreaterThan(0);
+      for (const file of files) {
+        const content = readFileSync(file, 'utf8');
+        expect(content, `File ${file} contains forbidden references`).not.toMatch(FORBIDDEN_PATTERN);
+      }
+    });
+  }
 
   it('T12.3 — no hardcoded vendor-specific paths in TS source (only in CLI scaffolding logic)', () => {
-    const swarmTsFiles = collectFiles(swarmRoot).filter((f) => f.endsWith('.ts') && !f.includes('__tests__'));
+    const swarmTsFiles = collectFiles(join(packagesRoot, 'swarm')).filter((f) => f.endsWith('.ts') && !f.includes('__tests__'));
     const vendorPath = new RegExp('\\.' + ['vre', 'ko'].join('') + '-swarm');
     for (const file of swarmTsFiles) {
       const content = readFileSync(file, 'utf8');

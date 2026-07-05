@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Marcelle-Labs/agent-substrate/routing/model-routing-table.schema.json",
+  "title": "Model Routing Table",
+  "description": "Cost/success routing policy consumed by the BudgetController (SOLO-FOUNDER-AGENT-OPS-01 §7.3). selectModel(taskClass, agentRole) resolves a ModelSelection from `routes`; recordOutcome() and the escalation feedback loop append to `escalation_log`. Seeded empty in Phase 1 and populated from observed Dashboard 1 data in Phase 6 — never from assumptions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "success_rate_threshold",
+    "routes",
+    "escalation_log"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "spec_ref": { "type": "string" },
+    "schema_version": {
+      "type": "string",
+      "description": "Semver of this table's structural schema."
+    },
+    "success_rate_threshold": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Global minimum task_success a candidate model must meet to be eligible (spec §7.2: 0.80). Null until populated."
+    },
+    "generated_from": {
+      "type": ["string", "null"],
+      "description": "Provenance of the populated data, e.g. the Dashboard 1 query/run id. Null until populated."
+    },
+    "populated_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of the last population from observed data. Null until populated."
+    },
+    "routes": {
+      "type": "array",
+      "description": "One entry per observed task_class + agent_role combination. Empty until populated.",
+      "items": { "$ref": "#/definitions/route" }
+    },
+    "escalation_log": {
+      "type": "array",
+      "description": "Append-only feedback loop: escalation events written back by the BudgetController (spec §7.4). Empty until escalations occur.",
+      "items": { "$ref": "#/definitions/escalationEvent" }
+    }
+  },
+  "definitions": {
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_class",
+        "agent_role",
+        "recommended_primary_model",
+        "candidates",
+        "sample_size"
+      ],
+      "properties": {
+        "task_class": {
+          "type": "string",
+          "description": "Task classification key looked up by selectModel(taskClass, ...)."
+        },
+        "agent_role": {
+          "type": "string",
+          "description": "Agent role key looked up by selectModel(..., agentRole)."
+        },
+        "recommended_primary_model": {
+          "type": ["string", "null"],
+          "description": "Cheapest candidate meeting success_rate_threshold; the model selectModel returns first."
+        },
+        "candidates": {
+          "type": "array",
+          "description": "Candidate models for this route, conventionally ordered cheapest-first.",
+          "items": { "$ref": "#/definitions/candidate" }
+        },
+        "sample_size": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Number of completed sessions backing these statistics (Phase 6 requires >= 10 per task_class)."
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "p50_cost_usd",
+        "p75_cost_usd",
+        "task_success",
+        "escalation_tool_count_threshold"
+      ],
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "Model id, e.g. claude-haiku-4-5-20251001."
+        },
+        "p50_cost_usd": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Median observed cost per session in USD."
+        },
+        "p75_cost_usd": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "75th-percentile observed cost per session in USD; cost-spike reference for escalation."
+        },
+        "task_success": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Observed task success rate for this model on this route."
+        },
+        "escalation_tool_count_threshold": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "tool_count at which cost spikes above p75; escalate beyond this point."
+        }
+      }
+    },
+    "escalationEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_class",
+        "trigger",
+        "cost_delta_usd",
+        "escalation_count"
+      ],
+      "properties": {
+        "task_class": {
+          "type": "string",
+          "description": "task_class that triggered the escalation."
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["tool_count_threshold", "success_rate_miss"],
+          "description": "Why the BudgetController escalated."
+        },
+        "cost_delta_usd": {
+          "type": ["number", "null"],
+          "description": "Difference between cheap-model P50 and escalated-model P50 (Langfuse swarm.escalation.cost_delta_usd)."
+        },
+        "escalation_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Running total of escalations for this task_class."
+        },
+        "recorded_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO-8601 timestamp the escalation was recorded."
+        }
+      }
+    }
+  }
+}
