@@ -1,0 +1,26 @@
+{
+  "name": "@marcellelabs/swarm-cli",
+  "version": "0.1.0",
+  "description": "Interactive CLI for scaffolding an AI swarm harness in any project",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "create-swarm": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@marcellelabs/swarm": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

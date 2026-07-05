@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "../..",
+    "paths": {
+      "@marcellelabs/swarm": ["../swarm/src/index.ts"],
+      "@marcellelabs/swarm/*": ["../swarm/src/*"]
+    }
+  },
+  "include": ["src"]
+}
