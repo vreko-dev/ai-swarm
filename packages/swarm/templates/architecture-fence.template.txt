@@ -1,0 +1,25 @@
+# Architecture Fence
+# ==================
+# Define import boundaries and canonical locations for your project.
+# The entries below are generic templates. Replace with your project's
+# actual package names and paths.
+#
+# Owned packages: {{OWNED_PACKAGES}}
+
+PATTERN: packages/*
+  ALLOW: imports from same package, shared types, shared utils
+  FORBID: direct imports from other domain packages
+  CANONICAL: src/index.ts
+
+PATTERN: apps/*
+  ALLOW: imports from packages/, shared config
+  FORBID: direct imports from other apps' internal modules
+  CANONICAL: src/main.ts
+
+PATTERN: shared/*
+  ALLOW: no imports from packages/ or apps/
+  FORBID: circular dependencies
+  CANONICAL: src/index.ts
+
+# ENFORCE: No package may import from another package's internal modules.
+# All cross-package imports must go through the package's public index.ts.

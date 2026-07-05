@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "generated_at": null,
+    "generator": "ratchetGenerator()",
+    "project_root": null,
+    "template": true
+  },
+  "ratchets": [
+    {
+      "metric": "console_log",
+      "baseline": 0,
+      "ci_check": "grep -r 'console\\.log' --include='*.ts' --include='*.js' packages/ apps/ src/ lib/ 2>/dev/null | grep -v 'node_modules\\|dist\\|__tests__\\|\\.test\\.\\|\\.spec\\.' | wc -l | tr -d ' '",
+      "description": "console.log statements in non-test source files"
+    },
+    {
+      "metric": "as_any",
+      "baseline": 0,
+      "ci_check": "grep -r 'as any' --include='*.ts' packages/ apps/ src/ lib/ 2>/dev/null | grep -v 'node_modules\\|dist\\|__tests__\\|\\.test\\.\\|\\.spec\\.' | wc -l | tr -d ' '",
+      "description": "TypeScript \"as any\" type assertions"
+    },
+    {
+      "metric": "ts_ignore",
+      "baseline": 0,
+      "ci_check": "grep -r '@ts-ignore\\|@ts-expect-error' --include='*.ts' packages/ apps/ src/ lib/ 2>/dev/null | grep -v 'node_modules\\|dist' | wc -l | tr -d ' '",
+      "description": "@ts-ignore and @ts-expect-error directives"
+    },
+    {
+      "metric": "skipped_tests",
+      "baseline": 0,
+      "ci_check": "grep -r 'it\\.skip\\|it\\.todo\\|test\\.skip\\|test\\.todo\\|xit\\|xdescribe' --include='*.ts' --include='*.js' packages/ apps/ src/ lib/ 2>/dev/null | grep -v 'node_modules\\|dist' | wc -l | tr -d ' '",
+      "description": "Skipped or todo test cases"
+    },
+    {
+      "metric": "empty_catches",
+      "baseline": 0,
+      "ci_check": "grep -rn 'catch\\s*(.*)\\s*{\\s*}' --include='*.ts' packages/ apps/ src/ lib/ 2>/dev/null | grep -v 'node_modules\\|dist' | wc -l | tr -d ' '",
+      "description": "Silent empty catch blocks that swallow errors"
+    }
+  ]
+}
