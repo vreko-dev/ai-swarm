@@ -1,4 +1,20 @@
+# macOS
 .DS_Store
 **/.DS_Store
+
+# Local/legacy tool directories
 .qoder/
 audit-findings/
+.claude/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build artifacts
+dist/
+**/dist/
+
+# Swarm runtime state and generated reports
+.ai-swarm/reports/
+.ai-swarm/state/
