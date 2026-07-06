@@ -15,6 +15,10 @@ node_modules/
 dist/
 **/dist/
 
+# Coverage reports
+coverage/
+**/coverage/
+
 # Swarm runtime state and generated reports — .ai-swarm/ is a sync-generated install
 .ai-swarm/*
 !.ai-swarm/specs/
